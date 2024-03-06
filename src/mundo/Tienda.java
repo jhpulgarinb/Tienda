@@ -10,6 +10,8 @@
  */
 package mundo;
 
+import java.util.Arrays;
+
 /**
  * Tienda que maneja 4 producto.
  */
@@ -297,17 +299,17 @@ public class Tienda {
      */
     public boolean cambiarProducto(String pNombreActual, String pNombreNuevo, String pTipo, double pValorUnitario, int pCantidadBodega, int pCantidadMinima, String pRutaImagen) {
         boolean cambio = false;
-        Producto producto = darProducto(pNombreActual);
-//por corregir
-        // Si el producto existe y el nuevo nombre no está en uso
-        if (producto != null && !Producto(pNombreNuevo)) {
-            producto.cambiarNombre(pNombreNuevo);
-            producto.cambiarTipo(pTipo);
-            producto.cambiarValorUnitario(pValorUnitario);
-            producto.cambiarCantidadBodega(pCantidadBodega);
-            producto.cambiarCantidadMinima(pCantidadMinima);
-            producto.cambiarRutaImagen(pRutaImagen);
-    cambio = true;
+        if (pNombreNuevo != null && !pNombreNuevo.isEmpty() && !existeProducto(pNombreNuevo)) {
+            Producto productoActual = darProducto(pNombreActual);
+            if (productoActual != null) {
+                productoActual.cambiarNombre(pNombreNuevo);
+                productoActual.cambiarTipo(pTipo);
+                productoActual.cambiarValorUnitario(pValorUnitario);
+                productoActual.cambiarCantidadBodega(pCantidadBodega);
+                productoActual.cambiarCantidadMinima(pCantidadMinima);
+                productoActual.cambiarRutaImagen(pRutaImagen);
+                cambio = true;
+                }
         }
 
         return cambio;
@@ -317,21 +319,37 @@ public class Tienda {
     // Puntos de Extensión
     // -----------------------------------------------------------------
 
+    private boolean existeProducto(String pNombreNuevo) {
+        boolean existe = false;
+
+        // Recorrer los productos de la tienda
+        for (Producto producto : Arrays.asList(producto1, producto2, producto3, producto4)) {
+
+            // Si el nombre del producto actual es igual al nombre nuevo
+            if (producto.darNombre().equals(pNombreNuevo)) {
+
+            // El producto ya existe
+            existe = true;
+            break;
+            }
+        }
+
+    return existe;
+    }
+
     /**
      * Obtiene la cantidad de producto que tienen un precio inferior al promedio de los precios
      */
     public int metodo1() {
-        int cantidadProducto = 0;
-        double promedioPrecio = darPromedioPrecios();
-
-        // Recorrer los productos y contar los que son más baratos que el promedio
-        for (Producto producto : listaProductos) {
+        int cantidadProductos = 0;
+        double promedioPrecio = darPromedioVentas();
+        for (Producto producto : Arrays.asList(producto1, producto2, producto3, producto4)) {
             if (producto.darValorUnitario() < promedioPrecio) {
-                cantidadProductosBaratos++;
+                cantidadProductos++;
                 }
             }
-
-        return cantidadProductosBaratos;;
+        
+            return cantidadProductos;
         }
 
 
@@ -339,16 +357,15 @@ public class Tienda {
      * Obtiene el nombre del producto más barato de la tienda
      */
     public String metodo2() {
-        
         String nombreProductoMasBarato = "";
         double precioMinimo = Double.MAX_VALUE;
     
         // Recorrer los productos y encontrar el más barato
-        for (Producto producto : listaProductos) {
+        for (Producto producto : Arrays.asList(producto1, producto2, producto3, producto4)) {
             if (producto.darValorUnitario() < precioMinimo) {
-            precioMinimo = producto.darValorUnitario();
-            nombreProductoMasBarato = producto.darNombre();
-            }
+                precioMinimo = producto.darValorUnitario();
+                nombreProductoMasBarato = producto.darNombre();
+                }
         }
     
         return nombreProductoMasBarato;

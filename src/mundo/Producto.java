@@ -279,4 +279,9 @@ public class Producto {
         
         return cantidadBodega < cantidadMinima;
     }
+
+    public void cambiarRutaImagen(String pRutaImagen) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'cambiarRutaImagen'");
+    }
 }
