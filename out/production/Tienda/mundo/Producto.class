@@ -1,0 +1,90 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+package mundo;
+
+public class Producto {
+   private String nombre;
+   private String tipo;
+   private double valorUnitario;
+   private int cantidadBodega;
+   private int cantidadMinima;
+   private int cantidadUnidadesVendidas;
+   private String rutaImagen;
+
+   public Producto(String pTipo, String pNombre, double pValorUnitario, int pCantidadBodega, int pCantidadMinima, String pRutaImagen) {
+      this.tipo = pTipo.toLowerCase();
+      this.nombre = pNombre;
+      this.valorUnitario = pValorUnitario;
+      this.cantidadBodega = pCantidadBodega;
+      this.cantidadMinima = pCantidadMinima;
+      this.rutaImagen = pRutaImagen;
+      this.cantidadUnidadesVendidas = 0;
+   }
+
+   public String darNombre() {
+      return this.nombre;
+   }
+
+   public String darTipo() {
+      return this.tipo.toLowerCase();
+   }
+
+   public double darValorUnitario() {
+      return this.valorUnitario;
+   }
+
+   public int darCantidadBodega() {
+      return this.cantidadBodega;
+   }
+
+   public int darCantidadMinima() {
+      return this.cantidadMinima;
+   }
+
+   public int darCantidadUnidadesVendidas() {
+      return this.cantidadUnidadesVendidas;
+   }
+
+   public String darRutaImagen() {
+      return this.rutaImagen;
+   }
+
+   public void cambiarNombre(String nuevoNombre) {
+   }
+
+   public void cambiarTipo(String nuevoTipo) {
+      this.tipo = nuevoTipo.toLowerCase();
+   }
+
+   public void cambiarValorUnitario(double nuevoValorUnitario) {
+   }
+
+   public void cambiarCantidadBodega(int nuevaCantidadEnBodega) {
+   }
+
+   public void cambiarCantidadMinima(int nuevaCantidadMinima) {
+   }
+
+   public void cambiardarCantidadUnidadesVendidas(int nuevaCantidadUnidadesVendidas) {
+   }
+
+   public double calcularPrecioFinal() {
+      return 0.0;
+   }
+
+   public double darIVA() {
+      double iva = 0.0;
+      return iva;
+   }
+
+   public int vender(int pCantidad) {
+      int cantidadVendida = 0;
+      return cantidadVendida;
+   }
+
+   public void abastecer(int pCantidad) {
+   }
+
+   public boolean puedeAbastecer() {
+      return false;
+   }
+}

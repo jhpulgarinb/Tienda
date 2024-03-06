@@ -1,0 +1,164 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+package interfaz;
+
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.GridLayout;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import mundo.Tienda;
+
+public class InterfazTienda extends JFrame {
+   private Tienda tienda;
+   private PanelImagen panelImagen;
+   private PanelOpciones panelOpciones;
+   private PanelProducto panelProducto1;
+   private PanelProducto panelProducto2;
+   private PanelProducto panelProducto3;
+   private PanelProducto panelProducto4;
+
+   public InterfazTienda() {
+      this.setTitle("Tienda Cupi2");
+      this.setSize(800, 720);
+      this.setDefaultCloseOperation(3);
+      this.tienda = new Tienda();
+      this.setLayout(new BorderLayout());
+      this.panelImagen = new PanelImagen();
+      this.add(this.panelImagen, "North");
+      this.panelOpciones = new PanelOpciones(this);
+      this.add(this.panelOpciones, "South");
+      JPanel panelCentro = new JPanel();
+      panelCentro.setLayout(new GridLayout(2, 2));
+      this.panelProducto1 = new PanelProducto(this);
+      panelCentro.add(this.panelProducto1);
+      this.panelProducto2 = new PanelProducto(this);
+      panelCentro.add(this.panelProducto2);
+      this.panelProducto3 = new PanelProducto(this);
+      panelCentro.add(this.panelProducto3);
+      this.panelProducto4 = new PanelProducto(this);
+      panelCentro.add(this.panelProducto4);
+      this.add(panelCentro, "Center");
+      this.setLocationRelativeTo((Component)null);
+      this.setResizable(false);
+      this.actualizar();
+   }
+
+   private void actualizar() {
+      this.panelProducto1.actualizarInfo(this.tienda.darPrimerProducto());
+      this.panelProducto2.actualizarInfo(this.tienda.darSegundoProducto());
+      this.panelProducto3.actualizarInfo(this.tienda.darTercerProducto());
+      this.panelProducto4.actualizarInfo(this.tienda.darCuartoProducto());
+   }
+
+   public void venderProducto(String pNombreProducto) {
+      String pCant = JOptionPane.showInputDialog(this, "Cantidad de unidades a vender:", "Vender producto", 1);
+      if (pCant != null) {
+         try {
+            int cantidad = Integer.parseInt(pCant);
+            if (cantidad > 0) {
+               int venta = this.tienda.venderProducto(pNombreProducto, cantidad);
+               if (venta > 0) {
+                  JOptionPane.showMessageDialog(this, "Fueron vendidas " + venta + " unidades.", "Vender producto", 1);
+                  this.actualizar();
+               } else {
+                  JOptionPane.showMessageDialog(this, "El producto no tiene unidades para realizar la venta.", "Vender producto", 0);
+               }
+            } else {
+               JOptionPane.showMessageDialog(this, "La cantidad ingresada debe ser mayor a cero.", "Vender producto", 0);
+            }
+         } catch (NumberFormatException var5) {
+            JOptionPane.showMessageDialog(this, "El valor ingresado debe ser un valor num\u00e9rico.", "Vender producto", 0);
+         }
+      }
+
+   }
+
+   public void abastecerUnidades(String pNombreProducto) {
+      String pCant = JOptionPane.showInputDialog(this, "Cantidad de unidades para abstecer:", "Abastecer producto", 1);
+      if (pCant != null) {
+         try {
+            int cantidad = Integer.parseInt(pCant);
+            if (cantidad > 0) {
+               boolean abastecio = this.tienda.abastecerProducto(pNombreProducto, cantidad);
+               this.actualizar();
+               if (abastecio) {
+                  JOptionPane.showMessageDialog(this, "Se abasteci\u00f3 la tienda.", "Abastecer producto", 1);
+               } else {
+                  JOptionPane.showMessageDialog(this, "No se pudo abastecer la tienda.", "Abastecer producto", 0);
+               }
+            } else {
+               JOptionPane.showMessageDialog(this, "La cantidad ingresada debe ser mayor a cero.", "Abastecer producto", 0);
+            }
+         } catch (NumberFormatException var5) {
+            JOptionPane.showMessageDialog(this, "El valor ingresado debe ser un valor num\u00e9rico.", "Abastecer producto", 0);
+         }
+      }
+
+   }
+
+   public void cambiarProducto(String pNombreActual, String pNombreNuevo, String pTipo, double pValorUnitario, int pCantidadBodega, int pCantidadMinima, String pRutaImagen) {
+      boolean cambio = this.tienda.cambiarProducto(pNombreActual, pNombreNuevo, pTipo, pValorUnitario, pCantidadBodega, pCantidadMinima, pRutaImagen);
+      if (!cambio) {
+         JOptionPane.showMessageDialog(this, "Ya existe un producto con el nombre " + pNombreNuevo + ".", "Cambiar producto", 0);
+      } else {
+         this.actualizar();
+      }
+
+   }
+
+   public void mostrarMasVendido() {
+      if (this.tienda.darProductoMasVendido() != null) {
+         JOptionPane.showMessageDialog(this, "El producto m\u00e1s vendido es: " + this.tienda.darProductoMasVendido().darNombre(), "Producto m\u00e1s vendido", 1);
+      } else {
+         JOptionPane.showMessageDialog(this, "Ning\u00fan produto tiene unidades vendidas.", "Producto m\u00e1s vendido", 0);
+      }
+
+   }
+
+   public void mostrarMenosVendido() {
+      if (this.tienda.darProductoMenosVendido() != null) {
+         JOptionPane.showMessageDialog(this, "El producto menos vendido es: " + this.tienda.darProductoMenosVendido().darNombre(), "Producto menos vendido", 1);
+      } else {
+         JOptionPane.showMessageDialog(this, "Ning\u00fan produto tiene unidades vendidas.", "Producto menos vendido", 0);
+      }
+
+   }
+
+   public void mostrarDialogoCambiarProducto(String pNombreProducto) {
+      DialogoCambiarProducto dialogo = new DialogoCambiarProducto(this, pNombreProducto);
+      dialogo.setVisible(true);
+   }
+
+   public void mostrarDineroEnCaja() {
+      JOptionPane.showMessageDialog(this, "En caja hay: " + this.tienda.darDineroEnCaja() + " $.", "Dinero en caja", 1);
+   }
+
+   public void mostrarPromedioVentas() {
+      JOptionPane.showMessageDialog(this, "El promedio de ventas es: " + this.tienda.darPromedioVentas(), "Promedio ventas", 1);
+   }
+
+   public void reqFuncOpcion1() {
+      int resultado = this.tienda.metodo1();
+      this.actualizar();
+      JOptionPane.showMessageDialog(this, "Hay " + resultado + " productos con un precio inferior al promedio.", "Inferior al promedio", 1);
+   }
+
+   public void reqFuncOpcion2() {
+      String resultado = this.tienda.metodo2();
+      this.actualizar();
+      JOptionPane.showMessageDialog(this, "El producto m\u00e1s barato se llama: " + resultado, "Producto barato", 1);
+   }
+
+   public static void main(String[] pArgs) {
+      try {
+         UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+         InterfazTienda interfaz = new InterfazTienda();
+         interfaz.setVisible(true);
+      } catch (Exception var2) {
+         var2.printStackTrace();
+      }
+
+   }
+}
